@@ -2,6 +2,8 @@ package banking.bankarray;
 
 import java.util.Scanner;
 
+
+
 public class BankMain2 {
 	// 통장 계좌를 만들 객체 배열 100개 생성
 	static Account[] accountArray = new Account[100];  //전역에 위치(배열)
