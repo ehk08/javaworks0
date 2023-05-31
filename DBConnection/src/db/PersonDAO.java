@@ -16,6 +16,7 @@ public class PersonDAO {
 	//자료 삽입
 	public void insertPerson(Person person) {
 		conn = JDBCUtil.getConnection();
+		//동적 바인딩
 		String sql = "INSERT INTO person(userid, userpw, name, age) VALUES (?, ?, ?, ?)";
 		try {
 			pstmt = conn.prepareStatement(sql);
@@ -83,10 +84,25 @@ public class PersonDAO {
 		return person;
 	}
 	
+	//자료 삭제
+	public void deletePerson(String userid) {
+		conn = JDBCUtil.getConnection();
+		String sql = "DELETE FROM person WHERE userid = ?";
+		try {
+			pstmt = conn.prepareStatement(sql);
+			pstmt.setString(1, userid); //외부에서 입력한 userid를 설정
+			pstmt.executeUpdate(); //db에서 삭제
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			JDBCUtil.close(conn, pstmt);
+		}
+	}
+	
 	//자료 수정
 	public void updatePerson(Person person) {
 		conn = JDBCUtil.getConnection();
-		String sql = "UPDATE person SET userpw=?, name=?, age=? WHERE userid =?";
+		String sql = "UPDATE person SET userpw = ?, name = ?, age = ? WHERE userid = ?";
 		try {
 			pstmt = conn.prepareStatement(sql);
 			pstmt.setString(1, person.getUserPw());
@@ -98,6 +114,15 @@ public class PersonDAO {
 			e.printStackTrace();
 		} finally {
 			JDBCUtil.close(conn, pstmt);
-		}		
+		}
 	}
 }
+
+
+
+
+
+
+
+
+

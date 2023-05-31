@@ -52,17 +52,4 @@ public class Person {
 	public void setAge(int age) {
 		this.age = age;
 	}
-	
-	//자료 삭제
-	public void deletePerson(String userid) {
-		conn = JDBCUtill.getConnection();
-		String sql = "DELETE FROM person WHERE userid = ?";
-		try {
-			pstmt = conn.prepareStatement(sql);
-			pstmt.setString(1, userid);  //외부에서 입력한 userid를 설정
-			pstmt.executeUpdate();  //db에서 삭제
-		} catch (SQLException) {
-			
-		}
-	}
 }
