@@ -1,4 +1,4 @@
-package banking.bankarray;
+package banking.bankarraylist;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -8,7 +8,6 @@ import banking.bankarray.Account;
 public class BankArrayList {
 	// 통장 계좌를 만들 ArrayList 생성
 	static ArrayList<Account> accountList = new ArrayList<>();
-	static Account[] accountArray = new Account[100];  //전역에 위치(배열)
 	static Scanner scanner = new Scanner(System.in);
 
 	public static void main(String[] args) {
@@ -63,18 +62,8 @@ public class BankArrayList {
 				int balance = Integer.parseInt(scanner.nextLine());
 				
 				Account account = new Account(ano, owner, balance);
-				accountList.add(account);
+				accountList.add(account);  //리스트에 신규 계좌를 저장
 				System.out.println("결과: 계좌가 생성되었습니다.");
-				break;  //정상적으로 계좌 생성 빠져나옴
-			}
-				for(int i=0; i<accountArray.length; i++) {//전체 배열을 반복하면서
-					//0번 인덱스에 새 계좌가 저장되는 문제
-					if(accountArray[i] == null) { //계좌가 저장되지 않는 인덱스에 
-						accountArray[i] = new Account(ano, owner, balance); //계좌를 생성함
-						System.out.println("결과: 계좌가 생성되었습니다.");
-						break; //계좌 생성후 빠져나옴
-					}
-				}
 				break; //정상적으로 계좌 생성 빠져 나옴
 			} //if ~else 끝
 		} //내부 while 끝
@@ -82,13 +71,14 @@ public class BankArrayList {
 	
 	//계좌 목록을 출력하는 메서드
 	private static void getAccountList() {
-		for(int i=0; i<accountArray.length; i++) {
+		for(int i=0; i<accountList.size(); i++) {
 			Account account = accountList.get(i);
-				System.out.print("계좌번호: " + accountArray[i].getAno() + "\t");
-				System.out.print("계좌주: " + accountArray[i].getOwner() + "\t");
-				System.out.println("잔액: " + accountArray[i].getBalance());
-			}
+			
+			System.out.print("계좌번호: " + account.getAno() + "\t");
+			System.out.print("계좌주: " + account.getOwner() + "\t");
+			System.out.println("잔액: " + account.getBalance());
 		}
+	}
 	
 	//계좌에 입금하는 메서드
 	private static void deposit() {
@@ -151,13 +141,11 @@ public class BankArrayList {
 	private static Account findAccount(String ano) {
 		Account account = null;  //빈 계좌 계정을 할당
 		
-		for(int i=0; i<accountArray.length; i++) {
-			if(accountArray[i] != null) { //없는 계좌를 입력하면 null 예외 발생
-				String dbAno = accountlist.get(i).getAno();  //이미 리스트에 저장된 계좌
-				if(dbAno.equals(ano)) { //찾는 계좌와 일치하면..문자열 비교 - equals() 사용
-					account = accountlist.get(i); //계좌를 가져와 저장
-					break;  //빠져나옴
-				}
+		for(int i=0; i<accountList.size(); i++) {
+			String dbAno = accountList.get(i).getAno(); //이미 리스트에 저장된 계좌번호
+			if(dbAno.equals(ano)) {
+				account = accountList.get(i); //계좌 객체 저장
+				break;
 			}
 		}
 		return account;
